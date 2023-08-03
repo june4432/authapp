@@ -60,16 +60,3 @@ app.post('/session/set', function(req, res, next) {
     }
   });
 });
-
-app.post('/login', function(req, res, next) {
-  const id = req.query.id;
-  const password = req.query.password;
-  redisClient.set(key, value, (err, result) => {
-    if(err){
-      console.log(err);
-    }else{
-      res.send(result);
-      console.log(result);
-    }
-  });
-});
