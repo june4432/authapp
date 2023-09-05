@@ -3,19 +3,28 @@ const express = require('express');
 const cors = require('cors');
 const port = process.env.DEF_PORT;
 const Redis = require('redis'); // Redis 모듈 불러오기
+const redis_url = process.env.REDIS_HOST || '192.168.0.56';
+const redis_port = process.env.REDIS_PORT || 6379;
+
+console.log(redis_url);
 
 const redisClient = new Redis.createClient({
-  socket:{
-    url:process.env.REDIS_HOST,
-    port:process.env.REDIS_PORT,
-    username: process.env.REDIS_USERNAME,
-    password: process.env.REDIS_PASSWORD
-  },
-  legacyMode:true
+  // socket:{
+  //   url:redis_url,
+  //   port:redis_port,
+  //   username: process.env.REDIS_USERNAME,
+  //   password: process.env.REDIS_PASSWORD
+  // },
+  host:"redis://"+redis_url,
+  port:redis_port,
+  username: process.env.REDIS_USERNAME,
+  password: process.env.REDIS_PASSWORD,
+  pingInterval: 1000,
+  legacyMode:true,
+  auth_pass: process.env.REDIS_PASSWORD
 }); 
 
-redisClient.connect();
-redisClient.auth(process.env.REDIS_PASSWORD);
+redisClient.connect().catch(console.error);
 
 // Redis 접속 확인
 redisClient.on('connect', () => {
