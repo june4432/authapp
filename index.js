@@ -6,8 +6,6 @@ const Redis = require('redis'); // Redis 모듈 불러오기
 const redis_url = process.env.REDIS_HOST || '192.168.0.56';
 const redis_port = process.env.REDIS_PORT || 6379;
 
-console.log(redis_url);
-
 const redisClient = new Redis.createClient({
   // socket:{
   //   url:redis_url,
